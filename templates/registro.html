@@ -1,0 +1,309 @@
+{% extends "base.html" %}
+
+{% block title %}Crear Cuenta - ecopack{% endblock %}
+
+{% block content %}
+<!-- REGISTRO SECTION -->
+<section style="background: linear-gradient(135deg, #a4d65e 0%, #8bc34a 100%); min-height: 100vh; display: flex; align-items: center; padding: 60px 0;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+                <div class="card border-0 shadow-lg" style="border-radius: 20px;">
+                    <div class="card-body p-5">
+                        <!-- Logo/Header -->
+                        <div class="text-center mb-4">
+                            <div class="mb-3">
+                                <i class="fas fa-leaf fs-1" style="color: #a4d65e;"></i>
+                            </div>
+                            <h2 class="fw-bold mb-2">Crear cuenta nueva</h2>
+                            <p class="text-muted">Únete a ecopack y empieza a comprar</p>
+                        </div>
+
+                        <!-- Formulario -->
+                        <form id="registroForm">
+                            <div class="row g-3">
+                                <!-- Nombre completo -->
+                                <div class="col-12">
+                                    <label for="nombre" class="form-label fw-semibold">
+                                        <i class="fas fa-user me-2" style="color: #a4d65e;"></i>
+                                        Nombre completo
+                                    </label>
+                                    <input type="text" 
+                                           class="form-control form-control-lg" 
+                                           id="nombre" 
+                                           placeholder="Ej: Juan Pérez"
+                                           required
+                                           style="border-radius: 10px;">
+                                </div>
+
+                                <!-- Email -->
+                                <div class="col-12">
+                                    <label for="email" class="form-label fw-semibold">
+                                        <i class="fas fa-envelope me-2" style="color: #a4d65e;"></i>
+                                        Correo electrónico
+                                    </label>
+                                    <input type="email" 
+                                           class="form-control form-control-lg" 
+                                           id="email" 
+                                           placeholder="tu@email.com"
+                                           required
+                                           style="border-radius: 10px;">
+                                    <small class="text-muted">Usaremos este email para enviarte confirmaciones</small>
+                                </div>
+
+                                <!-- Teléfono -->
+                                <div class="col-md-6">
+                                    <label for="telefono" class="form-label fw-semibold">
+                                        <i class="fas fa-phone me-2" style="color: #a4d65e;"></i>
+                                        Teléfono
+                                    </label>
+                                    <input type="tel" 
+                                           class="form-control form-control-lg" 
+                                           id="telefono" 
+                                           placeholder="987654321"
+                                           required
+                                           style="border-radius: 10px;">
+                                </div>
+
+                                <!-- Empresa (opcional) -->
+                                <div class="col-md-6">
+                                    <label for="empresa" class="form-label fw-semibold">
+                                        <i class="fas fa-building me-2" style="color: #a4d65e;"></i>
+                                        Empresa <span class="text-muted">(opcional)</span>
+                                    </label>
+                                    <input type="text" 
+                                           class="form-control form-control-lg" 
+                                           id="empresa" 
+                                           placeholder="Mi Empresa"
+                                           style="border-radius: 10px;">
+                                </div>
+
+                                <!-- Contraseña -->
+                                <div class="col-md-6">
+                                    <label for="password" class="form-label fw-semibold">
+                                        <i class="fas fa-lock me-2" style="color: #a4d65e;"></i>
+                                        Contraseña
+                                    </label>
+                                    <input type="password" 
+                                           class="form-control form-control-lg" 
+                                           id="password" 
+                                           placeholder="••••••••"
+                                           required
+                                           minlength="6"
+                                           style="border-radius: 10px;">
+                                    <small class="text-muted">Mínimo 6 caracteres</small>
+                                </div>
+
+                                <!-- Confirmar Contraseña -->
+                                <div class="col-md-6">
+                                    <label for="password2" class="form-label fw-semibold">
+                                        <i class="fas fa-lock me-2" style="color: #a4d65e;"></i>
+                                        Confirmar contraseña
+                                    </label>
+                                    <input type="password" 
+                                           class="form-control form-control-lg" 
+                                           id="password2" 
+                                           placeholder="••••••••"
+                                           required
+                                           minlength="6"
+                                           style="border-radius: 10px;">
+                                </div>
+
+                                <!-- Términos y condiciones -->
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="terminos" required>
+                                        <label class="form-check-label" for="terminos">
+                                            Acepto los <a href="#" style="color: #a4d65e;">Términos y Condiciones</a> 
+                                            y la <a href="#" style="color: #a4d65e;">Política de Privacidad</a>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Botón Submit -->
+                                <div class="col-12">
+                                    <button type="submit" 
+                                            class="btn btn-lg w-100 text-white fw-bold" 
+                                            style="background-color: #a4d65e; border-radius: 10px;">
+                                        <i class="fas fa-user-plus me-2"></i>
+                                        Crear mi cuenta
+                                    </button>
+                                </div>
+
+                                <!-- Divider -->
+                                <div class="col-12">
+                                    <div class="text-center my-3">
+                                        <span class="text-muted">¿Ya tienes una cuenta?</span>
+                                    </div>
+                                </div>
+
+                                <!-- Botón Login -->
+                                <div class="col-12">
+                                    <a href="{{ url_for('login') }}" 
+                                       class="btn btn-outline-success btn-lg w-100 fw-bold"
+                                       style="border-radius: 10px; border-width: 2px;">
+                                        <i class="fas fa-sign-in-alt me-2"></i>
+                                        Iniciar sesión
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Volver al inicio -->
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('index') }}" class="text-white text-decoration-none">
+                        <i class="fas fa-arrow-left me-2"></i>
+                        Volver al inicio
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Manejar envío del formulario
+    document.getElementById('registroForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Obtener valores
+        const nombre = document.getElementById('nombre').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const telefono = document.getElementById('telefono').value.trim();
+        const empresa = document.getElementById('empresa').value.trim();
+        const password = document.getElementById('password').value;
+        const password2 = document.getElementById('password2').value;
+        
+        // Validaciones
+        if (password !== password2) {
+            mostrarError('Las contraseñas no coinciden');
+            return;
+        }
+        
+        if (password.length < 6) {
+            mostrarError('La contraseña debe tener al menos 6 caracteres');
+            return;
+        }
+        
+        // Validar email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            mostrarError('Por favor ingresa un email válido');
+            return;
+        }
+        
+        // Validar teléfono (solo números, 9 dígitos)
+        const telefonoRegex = /^\d{9}$/;
+        if (!telefonoRegex.test(telefono)) {
+            mostrarError('El teléfono debe tener 9 dígitos');
+            return;
+        }
+        
+        // Obtener usuarios existentes
+        const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+        
+        // Verificar si el email ya existe
+        if (usuarios.some(u => u.email === email)) {
+            mostrarError('Este email ya está registrado. Por favor inicia sesión.');
+            return;
+        }
+        
+        // Crear nuevo usuario
+        const nuevoUsuario = {
+            id: Date.now(),
+            nombre: nombre,
+            email: email,
+            telefono: telefono,
+            empresa: empresa,
+            password: password,
+            fechaRegistro: new Date().toISOString()
+        };
+        
+        // Guardar usuario
+        usuarios.push(nuevoUsuario);
+        localStorage.setItem('usuarios', JSON.stringify(usuarios));
+        
+        // Auto-login
+        localStorage.setItem('usuarioActual', JSON.stringify({
+            id: nuevoUsuario.id,
+            nombre: nuevoUsuario.nombre,
+            email: nuevoUsuario.email
+        }));
+        
+        // Mostrar mensaje de éxito
+        mostrarMensajeExito();
+        
+        // Redirigir después de 2 segundos
+        setTimeout(() => {
+            window.location.href = '/';
+        }, 2000);
+    });
+
+    // Mostrar mensaje de éxito
+    function mostrarMensajeExito() {
+        const form = document.getElementById('registroForm');
+        form.innerHTML = `
+            <div class="text-center py-5">
+                <div class="mb-4">
+                    <div class="success-checkmark mx-auto" style="width: 100px; height: 100px;">
+                        <div style="width: 100px; height: 100px; background: #a4d65e; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-check fs-1 text-white"></i>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="fw-bold mb-3" style="color: #a4d65e;">¡Cuenta creada exitosamente!</h3>
+                <p class="text-muted mb-0">Bienvenido a ecopack</p>
+                <p class="text-muted">Redirigiendo al inicio...</p>
+            </div>
+        `;
+    }
+
+    // Mostrar error
+    function mostrarError(mensaje) {
+        // Remover alerta anterior si existe
+        const alertaAnterior = document.querySelector('.alert-danger');
+        if (alertaAnterior) {
+            alertaAnterior.remove();
+        }
+        
+        // Crear nueva alerta
+        const alerta = document.createElement('div');
+        alerta.className = 'alert alert-danger alert-dismissible fade show';
+        alerta.innerHTML = `
+            <i class="fas fa-exclamation-circle me-2"></i>
+            ${mensaje}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        
+        // Insertar antes del formulario
+        const form = document.getElementById('registroForm');
+        form.parentElement.insertBefore(alerta, form);
+        
+        // Auto-cerrar después de 5 segundos
+        setTimeout(() => {
+            alerta.remove();
+        }, 5000);
+    }
+
+    // Validación en tiempo real de contraseñas
+    document.getElementById('password2').addEventListener('input', function() {
+        const password = document.getElementById('password').value;
+        const password2 = this.value;
+        
+        if (password2 && password !== password2) {
+            this.setCustomValidity('Las contraseñas no coinciden');
+            this.classList.add('is-invalid');
+        } else {
+            this.setCustomValidity('');
+            this.classList.remove('is-invalid');
+            if (password2) {
+                this.classList.add('is-valid');
+            }
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ecopack - Packaging Ecológico{% endblock %}</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        html { scroll-behavior: smooth; }
+        .hover-card { transition: all 0.3s ease; }
+        .hover-card:hover { transform: translateY(-8px); }
+        .product-img { transition: transform 0.5s ease; }
+        .hover-card:hover .product-img { transform: scale(1.1); }
+        .carrito-contador {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .carrito-contador.visible {
+            display: inline-flex;
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-light">
+    
+    <!-- HEADER -->
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+            <div class="container">
+                <!-- Logo -->
+                <a class="navbar-brand fw-bold d-flex align-items-center" href="{{ url_for('index') }}" style="color: #a4d65e;">
+                    <i class="fas fa-leaf me-2 fs-4"></i>
+                    <span class="fs-4">ecopack</span>
+                </a>
+                
+                <!-- Botón hamburguesa -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <!-- Menú navegación -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold" href="{{ url_for('index') }}" style="color: {% if request.endpoint == 'index' %}#a4d65e{% else %}#666{% endif %};">INICIO</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold" href="{{ url_for('servicios') }}" style="color: {% if request.endpoint == 'servicios' %}#a4d65e{% else %}#666{% endif %};">SERVICIOS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold" href="{{ url_for('productos') }}" style="color: {% if request.endpoint == 'productos' %}#a4d65e{% else %}#666{% endif %};">PRODUCTOS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link fw-semibold" href="{{ url_for('contacto') }}" style="color: {% if request.endpoint == 'contacto' %}#a4d65e{% else %}#666{% endif %};">CONTACTO</a>
+                        </li>
+                    </ul>
+                    
+                    <!-- MÓVIL: Botones dentro del collapse -->
+                    <div class="d-lg-none mt-3">
+                        <!-- Usuario logueado móvil -->
+                        <div id="user-menu-mobile" style="display: none;" class="mb-3">
+                            <div class="border rounded p-3" style="background-color: #f0f8e8;">
+                                <div class="d-flex align-items-center mb-2">
+                                    <i class="fas fa-user-circle fs-3 me-2" style="color: #a4d65e;"></i>
+                                    <span class="fw-bold" id="username-display-mobile"></span>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <a href="{{ url_for('perfil') }}" class="btn btn-sm btn-outline-success">
+                                        <i class="fas fa-user me-2"></i>Mi Perfil
+                                    </a>
+                                    <a href="{{ url_for('pedidos') }}" class="btn btn-sm btn-outline-success">
+                                        <i class="fas fa-shopping-bag me-2"></i>Mis Pedidos
+                                    </a>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="cerrarSesion()">
+                                        <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Botones auth móvil -->
+                        <div id="auth-buttons-mobile" class="d-flex gap-2 mb-3">
+                            <a href="{{ url_for('login') }}" class="btn btn-outline-success flex-fill">
+                                <i class="fas fa-sign-in-alt me-2"></i>Ingresar
+                            </a>
+                            <a href="{{ url_for('registro') }}" class="btn text-white flex-fill" style="background-color: #a4d65e;">
+                                <i class="fas fa-user-plus me-2"></i>Registrarse
+                            </a>
+                        </div>
+                        
+                        <!-- Carrito móvil -->
+                        <button class="btn text-white w-100 position-relative" data-bs-toggle="modal" data-bs-target="#carritoModal" style="background-color: #a4d65e; border-radius: 20px;">
+                            <i class="fas fa-shopping-cart me-2"></i>Carrito
+                            <span class="carrito-contador" id="carrito-contador-mobile">0</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- DESKTOP: Botones fuera del collapse -->
+                <div class="d-none d-lg-flex ms-3 gap-2 align-items-center">
+                    <!-- Usuario logueado desktop -->
+                    <div id="user-menu-desktop" style="display: none;">
+                        <div class="dropdown">
+                            <button class="btn text-white dropdown-toggle px-4 d-flex align-items-center" 
+                                    type="button" 
+                                    data-bs-toggle="dropdown" 
+                                    style="background-color: #a4d65e; border-radius: 25px; border: none; font-weight: 600;">
+                                <i class="fas fa-user-circle me-2 fs-5"></i>
+                                <span id="username-display"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-lg" style="border-radius: 15px; min-width: 250px; border: none; padding: 0.5rem;">
+                                <li class="px-3 py-2" style="background-color: #f0f8e8; border-radius: 10px; margin: 0.5rem;">
+                                    <div class="d-flex align-items-center">
+                                        <div class="rounded-circle d-flex align-items-center justify-content-center me-3" 
+                                             style="width: 45px; height: 45px; background: linear-gradient(135deg, #a4d65e 0%, #8bc34a 100%); color: white; font-weight: bold;">
+                                            <span id="user-initials-desktop"></span>
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold" id="user-name-dropdown"></div>
+                                            <small class="text-muted" id="user-email-dropdown"></small>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li><hr class="dropdown-divider my-2"></li>
+                                <li>
+                                    <a class="dropdown-item py-2 px-3" href="{{ url_for('perfil') }}" style="border-radius: 8px;">
+                                        <i class="fas fa-user me-2" style="color: #a4d65e; width: 20px;"></i>Mi Perfil
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item py-2 px-3" href="{{ url_for('pedidos') }}" style="border-radius: 8px;">
+                                        <i class="fas fa-shopping-bag me-2" style="color: #a4d65e; width: 20px;"></i>Mis Pedidos
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider my-2"></li>
+                                <li>
+                                    <a class="dropdown-item py-2 px-3 text-danger" href="#" onclick="cerrarSesion(); return false;" style="border-radius: 8px;">
+                                        <i class="fas fa-sign-out-alt me-2" style="width: 20px;"></i>Cerrar Sesión
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Botones Login/Registro desktop -->
+                    <div id="auth-buttons-desktop" style="display: flex;">
+                        <a href="{{ url_for('login') }}" class="btn btn-outline-success px-3 me-2" style="border-radius: 20px;">
+                            <i class="fas fa-sign-in-alt me-2"></i>Ingresar
+                        </a>
+                        <a href="{{ url_for('registro') }}" class="btn text-white px-3" style="background-color: #a4d65e; border-radius: 20px;">
+                            <i class="fas fa-user-plus me-2"></i>Registrarse
+                        </a>
+                    </div>
+                    
+                    <!-- Carrito desktop -->
+                    <button class="btn text-white px-4 position-relative" data-bs-toggle="modal" data-bs-target="#carritoModal" style="background-color: #a4d65e; border-radius: 20px;">
+                        <i class="fas fa-shopping-cart me-2"></i>Carrito
+                        <span class="carrito-contador" id="carrito-contador-desktop">0</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- CONTENIDO -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="text-white pt-5 pb-3" style="background: linear-gradient(135deg, #8bc34a 0%, #689f38 100%);">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <h5 class="fw-bold mb-3">
+                        <i class="fas fa-leaf me-2"></i>ecopack
+                    </h5>
+                    <p class="mb-3" style="opacity: 0.9;">
+                        Soluciones de packaging ecológico para un futuro sostenible. Comprometidos con el medio ambiente.
+                    </p>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="fw-bold mb-3">Enlaces</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="{{ url_for('index') }}" class="text-white text-decoration-none" style="opacity: 0.9;">Inicio</a></li>
+                        <li class="mb-2"><a href="{{ url_for('servicios') }}" class="text-white text-decoration-none" style="opacity: 0.9;">Servicios</a></li>
+                        <li class="mb-2"><a href="{{ url_for('productos') }}" class="text-white text-decoration-none" style="opacity: 0.9;">Productos</a></li>
+                        <li class="mb-2"><a href="{{ url_for('contacto') }}" class="text-white text-decoration-none" style="opacity: 0.9;">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="fw-bold mb-3">Contacto</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-phone me-2"></i>+51 987 654 321</li>
+                        <li class="mb-2"><i class="fas fa-envelope me-2"></i>info@ecopack.pe</li>
+                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i>Lima, Perú</li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="fw-bold mb-3">Síguenos</h6>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4" style="opacity: 0.3;">
+            <div class="text-center" style="opacity: 0.9;">
+                <small>&copy; 2024 ecopack. Todos los derechos reservados.</small>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL CARRITO -->
+    <div class="modal fade" id="carritoModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content" style="border-radius: 15px;">
+                <div class="modal-header text-white" style="background-color: #a4d65e;">
+                    <h5 class="modal-title fw-bold">
+                        <i class="fas fa-shopping-cart me-2"></i>Mi Carrito
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div id="carrito-items"></div>
+                    <div id="carrito-vacio" class="text-center py-5" style="display: none;">
+                        <i class="fas fa-shopping-cart fs-1 text-muted mb-3"></i>
+                        <h5 class="text-muted">Tu carrito está vacío</h5>
+                        <p class="text-muted">Agrega productos para comenzar</p>
+                    </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-between align-items-center" style="background-color: #f8f9fa;">
+                    <div>
+                        <h5 class="mb-0 fw-bold" style="color: #a4d65e;">
+                            Total: <span id="carrito-total">S/ 0.00</span>
+                        </h5>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button class="btn text-white" onclick="procesarPago()" style="background-color: #a4d65e;">
+                            <i class="fas fa-credit-card me-2"></i>Pagar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- ========================================
+         SISTEMA COMPLETO DE GESTIÓN DE STOCK
+         ======================================== -->
+    <script>
+        // ========================================
+        // 1. VARIABLES GLOBALES
+        // ========================================
+        var productosData = [];
+        let carrito = [];
+
+        // ========================================
+        // 2. CARGAR PRODUCTOS DESDE EL SERVIDOR
+        // ========================================
+        async function cargarProductosDesdeServidor() {
+            try {
+                const response = await fetch('/api/productos');
+                if (response.ok) {
+                    productosData = await response.json();
+                    
+                    // Sincronizar con stock local si existe
+                    const stockLocal = JSON.parse(localStorage.getItem('stockProductos') || '{}');
+                    
+                    productosData = productosData.map(producto => {
+                        if (stockLocal[producto.id] !== undefined) {
+                            return { ...producto, stock: stockLocal[producto.id] };
+                        }
+                        return producto;
+                    });
+                    
+                    console.log('✅ Productos cargados:', productosData.length);
+                } else {
+                    console.error('❌ Error al cargar productos:', response.status);
+                }
+            } catch (error) {
+                console.error('❌ Error al cargar productos:', error);
+            }
+        }
+
+        // ========================================
+        // 3. GESTIÓN DE STOCK LOCAL
+        // ========================================
+        
+        // Obtener stock actual de un producto
+        function obtenerStockProducto(productoId) {
+            const stockLocal = JSON.parse(localStorage.getItem('stockProductos') || '{}');
+            
+            if (stockLocal[productoId] !== undefined) {
+                return stockLocal[productoId];
+            }
+            
+            const producto = productosData.find(p => p.id === productoId);
+            return producto ? producto.stock : 0;
+        }
+
+        // Actualizar stock de un producto
+        function actualizarStock(productoId, nuevoStock) {
+            const stockLocal = JSON.parse(localStorage.getItem('stockProductos') || '{}');
+            stockLocal[productoId] = nuevoStock;
+            localStorage.setItem('stockProductos', JSON.stringify(stockLocal));
+            
+            // Actualizar en productosData
+            const producto = productosData.find(p => p.id === productoId);
+            if (producto) {
+                producto.stock = nuevoStock;
+            }
+            
+            console.log(`📦 Stock actualizado - Producto ${productoId}: ${nuevoStock} unidades`);
+        }
+
+        // Reducir stock al comprar
+        function reducirStockProductos(productos) {
+            productos.forEach(item => {
+                const stockActual = obtenerStockProducto(item.id);
+                const nuevoStock = Math.max(0, stockActual - item.cantidad);
+                actualizarStock(item.id, nuevoStock);
+            });
+        }
+
+        // Verificar si hay stock suficiente
+        function verificarStockDisponible(productoId, cantidad) {
+            const stockActual = obtenerStockProducto(productoId);
+            return stockActual >= cantidad;
+        }
+
+        // ========================================
+        // 4. CARRITO - CARGAR Y GUARDAR
+        // ========================================
+        
+        function cargarCarrito() {
+            const carritoGuardado = localStorage.getItem('carrito');
+            if (carritoGuardado) {
+                carrito = JSON.parse(carritoGuardado);
+            }
+            renderizarCarrito();
+        }
+
+        function guardarCarrito() {
+            localStorage.setItem('carrito', JSON.stringify(carrito));
+        }
+
+        // ========================================
+        // 5. AGREGAR AL CARRITO (CON VALIDACIÓN DE STOCK)
+        // ========================================
+        
+        function agregarAlCarrito(productoId) {
+            console.log('🛒 Agregando producto ID:', productoId);
+            console.log('📦 Productos disponibles:', productosData.length);
+            
+            // Verificar que los productos estén cargados
+            if (productosData.length === 0) {
+                console.error('❌ Productos no cargados aún');
+                mostrarNotificacion('Productos aún no cargados, espera un momento', 'warning');
+                cargarProductosDesdeServidor().then(() => {
+                    if (productosData.length > 0) {
+                        agregarAlCarrito(productoId);
+                    }
+                });
+                return;
+            }
+            
+            const producto = productosData.find(p => p.id === productoId);
+            
+            if (!producto) {
+                console.error('❌ Producto no encontrado con ID:', productoId);
+                console.log('IDs disponibles:', productosData.map(p => p.id));
+                mostrarNotificacion('Producto no encontrado', 'error');
+                return;
+            }
+            
+            // Obtener stock actual
+            const stockDisponible = obtenerStockProducto(productoId);
+            const itemExistente = carrito.find(item => item.id === productoId);
+            const cantidadEnCarrito = itemExistente ? itemExistente.cantidad : 0;
+            
+            // VALIDACIÓN DE STOCK
+            if (stockDisponible <= 0) {
+                mostrarNotificacion(`${producto.nombre} - Sin stock disponible`, 'error');
+                return;
+            }
+            
+            if (cantidadEnCarrito >= stockDisponible) {
+                mostrarNotificacion(`${producto.nombre} - Stock máximo alcanzado (${stockDisponible} disponibles)`, 'warning');
+                return;
+            }
+            
+            console.log('✅ Producto encontrado:', producto.nombre);
+            console.log('📊 Stock disponible:', stockDisponible);
+
+            if (itemExistente) {
+                itemExistente.cantidad++;
+                mostrarNotificacion(`${producto.nombre} - Cantidad actualizada (${itemExistente.cantidad}/${stockDisponible})`, 'success');
+            } else {
+                carrito.push({
+                    id: producto.id,
+                    nombre: producto.nombre,
+                    precio: producto.precio,
+                    imagen: producto.imagen,
+                    cantidad: 1
+                });
+                mostrarNotificacion(`${producto.nombre} agregado al carrito`, 'success');
+            }
+
+            guardarCarrito();
+            renderizarCarrito();
+            
+            console.log('🛒 Carrito actualizado:', carrito.length, 'items');
+        }
+
+        // ========================================
+        // 6. RENDERIZAR CARRITO (CON INFORMACIÓN DE STOCK)
+        // ========================================
+        
+        function renderizarCarrito() {
+            const carritoItems = document.getElementById('carrito-items');
+            const carritoVacio = document.getElementById('carrito-vacio');
+            const carritoTotal = document.getElementById('carrito-total');
+            const contadorDesktop = document.getElementById('carrito-contador-desktop');
+            const contadorMobile = document.getElementById('carrito-contador-mobile');
+
+            if (carrito.length === 0) {
+                if (carritoItems) carritoItems.innerHTML = '';
+                if (carritoVacio) carritoVacio.style.display = 'block';
+                if (carritoTotal) carritoTotal.textContent = 'S/ 0.00';
+                if (contadorDesktop) {
+                    contadorDesktop.textContent = '0';
+                    contadorDesktop.classList.remove('visible');
+                }
+                if (contadorMobile) {
+                    contadorMobile.textContent = '0';
+                    contadorMobile.classList.remove('visible');
+                }
+                return;
+            }
+
+            if (carritoVacio) carritoVacio.style.display = 'none';
+
+            const total = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+            if (carritoTotal) carritoTotal.textContent = `S/ ${total.toFixed(2)}`;
+
+            const totalItems = carrito.reduce((sum, item) => sum + item.cantidad, 0);
+            if (contadorDesktop) {
+                contadorDesktop.textContent = totalItems;
+                contadorDesktop.classList.add('visible');
+            }
+            if (contadorMobile) {
+                contadorMobile.textContent = totalItems;
+                contadorMobile.classList.add('visible');
+            }
+
+            if (carritoItems) {
+                carritoItems.innerHTML = carrito.map(item => {
+                    const stockDisponible = obtenerStockProducto(item.id);
+                    const puedeAumentar = item.cantidad < stockDisponible;
+                    
+                    return `
+                        <div class="p-3 border-bottom">
+                            <div class="d-flex align-items-center">
+                                <img src="${item.imagen}" alt="${item.nombre}" class="rounded me-3" style="width: 60px; height: 60px; object-fit: cover;">
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-1">${item.nombre}</h6>
+                                    <small class="text-muted">S/ ${item.precio.toFixed(2)}</small>
+                                    <br>
+                                    <small class="badge bg-light text-dark mt-1">
+                                        <i class="fas fa-box-open me-1"></i>Stock: ${stockDisponible} disponibles
+                                    </small>
+                                </div>
+                                <div class="d-flex align-items-center gap-2">
+                                    <button class="btn btn-sm btn-outline-secondary" onclick="cambiarCantidad(${item.id}, -1)">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <span class="fw-bold">${item.cantidad}</span>
+                                    <button class="btn btn-sm btn-outline-secondary ${!puedeAumentar ? 'disabled' : ''}" 
+                                            onclick="cambiarCantidad(${item.id}, 1)"
+                                            ${!puedeAumentar ? 'disabled' : ''}>
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger ms-2" onclick="eliminarDelCarrito(${item.id})">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        // ========================================
+        // 7. CAMBIAR CANTIDAD (CON VALIDACIÓN DE STOCK)
+        // ========================================
+        
+        function cambiarCantidad(productoId, cambio) {
+            const item = carrito.find(i => i.id === productoId);
+            if (!item) return;
+
+            const nuevaCantidad = item.cantidad + cambio;
+            const stockDisponible = obtenerStockProducto(productoId);
+
+            if (nuevaCantidad <= 0) {
+                eliminarDelCarrito(productoId);
+                return;
+            }
+
+            if (nuevaCantidad > stockDisponible) {
+                mostrarNotificacion(`Stock máximo alcanzado (${stockDisponible} disponibles)`, 'warning');
+                return;
+            }
+
+            item.cantidad = nuevaCantidad;
+            guardarCarrito();
+            renderizarCarrito();
+        }
+
+        // ========================================
+        // 8. ELIMINAR Y VACIAR CARRITO
+        // ========================================
+        
+        function eliminarDelCarrito(productoId) {
+            carrito = carrito.filter(item => item.id !== productoId);
+            guardarCarrito();
+            renderizarCarrito();
+            mostrarNotificacion('Producto eliminado del carrito', 'info');
+        }
+
+        function vaciarCarrito() {
+            carrito = [];
+            guardarCarrito();
+            renderizarCarrito();
+        }
+
+        // ========================================
+        // 9. PROCESAR PAGO (CON REDUCCIÓN DE STOCK)
+        // ========================================
+        
+        function procesarPago() {
+            const usuarioActual = localStorage.getItem('usuarioActual');
+
+            if (!usuarioActual) {
+                mostrarNotificacion('Debes iniciar sesión para realizar una compra', 'warning');
+                setTimeout(() => {
+                    window.location.href = '/login';
+                }, 1500);
+                return;
+            }
+
+            if (carrito.length === 0) {
+                mostrarNotificacion('El carrito está vacío', 'warning');
+                return;
+            }
+
+            // ⭐ VALIDAR STOCK ANTES DE PROCESAR
+            let stockInsuficiente = false;
+            const productosConStockInsuficiente = [];
+
+            carrito.forEach(item => {
+                const stockDisponible = obtenerStockProducto(item.id);
+                if (item.cantidad > stockDisponible) {
+                    stockInsuficiente = true;
+                    productosConStockInsuficiente.push({
+                        nombre: item.nombre,
+                        solicitado: item.cantidad,
+                        disponible: stockDisponible
+                    });
+                }
+            });
+
+            if (stockInsuficiente) {
+                let mensaje = 'Stock insuficiente para:\n\n';
+                productosConStockInsuficiente.forEach(p => {
+                    mensaje += `• ${p.nombre}: solicitaste ${p.solicitado}, disponible ${p.disponible}\n`;
+                });
+                alert(mensaje);
+                return;
+            }
+
+            const usuario = JSON.parse(usuarioActual);
+            const total = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+
+            const pedido = {
+                id: Date.now(),
+                usuarioId: usuario.id,
+                usuarioNombre: usuario.nombre,
+                usuarioEmail: usuario.email,
+                productos: carrito.map(item => ({
+                    id: item.id,
+                    nombre: item.nombre,
+                    precio: item.precio,
+                    cantidad: item.cantidad,
+                    imagen: item.imagen
+                })),
+                total: total,
+                fecha: new Date().toISOString(),
+                estado: 'Confirmado'
+            };
+
+            // ⭐ REDUCIR STOCK DE LOS PRODUCTOS COMPRADOS
+            reducirStockProductos(pedido.productos);
+
+            const pedidos = JSON.parse(localStorage.getItem('pedidos') || '[]');
+            pedidos.push(pedido);
+            localStorage.setItem('pedidos', JSON.stringify(pedidos));
+
+            vaciarCarrito();
+
+            const modalCarrito = bootstrap.Modal.getInstance(document.getElementById('carritoModal'));
+            if (modalCarrito) modalCarrito.hide();
+
+            mostrarModalPagoExitoso(pedido);
+            
+            // Actualizar UI si existe la función
+            if (typeof actualizarStockUI === 'function') {
+                setTimeout(actualizarStockUI, 500);
+            }
+            if (typeof actualizarStockUIIndex === 'function') {
+                setTimeout(actualizarStockUIIndex, 500);
+            }
+        }
+
+        // ========================================
+        // 10. MODAL DE PAGO EXITOSO
+        // ========================================
+        
+        function mostrarModalPagoExitoso(pedido) {
+            const modalHTML = `
+                <div class="modal fade" id="pagoExitosoModal" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content" style="border-radius: 20px; border: none;">
+                            <div class="modal-body p-5 text-center">
+                                <div class="mb-4">
+                                    <div style="width: 100px; height: 100px; background: linear-gradient(135deg, #a4d65e 0%, #8bc34a 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                                        <i class="fas fa-check fs-1 text-white"></i>
+                                    </div>
+                                </div>
+                                <h3 class="fw-bold mb-3" style="color: #a4d65e;">¡Pago Exitoso!</h3>
+                                <p class="text-muted mb-2">Tu pedido ha sido confirmado</p>
+                                <p class="fw-bold mb-4" style="color: #333;">Pedido #${pedido.id}</p>
+                                
+                                <div class="alert alert-light border-0 mb-4" style="background-color: #f0f8e8;">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span class="text-muted">Total pagado:</span>
+                                        <span class="fw-bold fs-4" style="color: #a4d65e;">S/ ${pedido.total.toFixed(2)}</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span class="text-muted">Productos:</span>
+                                        <span class="fw-bold">${pedido.productos.length} artículo(s)</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-grid gap-2">
+                                    <a href="/pedidos" class="btn btn-lg text-white" style="background-color: #a4d65e; border-radius: 15px;">
+                                        <i class="fas fa-shopping-bag me-2"></i>Ver Mis Pedidos
+                                    </a>
+                                    <button class="btn btn-outline-secondary btn-lg" data-bs-dismiss="modal" style="border-radius: 15px;">
+                                        Seguir Comprando
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const modalAnterior = document.getElementById('pagoExitosoModal');
+            if (modalAnterior) modalAnterior.remove();
+
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+            const modal = new bootstrap.Modal(document.getElementById('pagoExitosoModal'));
+            modal.show();
+
+            document.getElementById('pagoExitosoModal').addEventListener('hidden.bs.modal', function () {
+                this.remove();
+            });
+        }
+
+        // ========================================
+        // 11. NOTIFICACIONES
+        // ========================================
+        
+        function mostrarNotificacion(mensaje, tipo = 'info') {
+            const colores = {
+                success: '#28a745',
+                warning: '#ffc107',
+                error: '#dc3545',
+                info: '#17a2b8'
+            };
+
+            const notif = document.createElement('div');
+            notif.className = 'position-fixed top-0 end-0 p-3';
+            notif.style.zIndex = '9999';
+            notif.innerHTML = `
+                <div class="alert alert-dismissible fade show" role="alert" style="background-color: ${colores[tipo]}; color: white; border: none; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                    ${mensaje}
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+                </div>
+            `;
+
+            document.body.appendChild(notif);
+
+            setTimeout(() => {
+                notif.remove();
+            }, 3000);
+        }
+
+        // ========================================
+        // 12. SISTEMA DE AUTENTICACIÓN
+        // ========================================
+        
+        function verificarSesion() {
+            const usuarioActual = localStorage.getItem('usuarioActual');
+
+            if (usuarioActual) {
+                const usuario = JSON.parse(usuarioActual);
+                mostrarUsuarioLogueado(usuario);
+            } else {
+                mostrarBotonesAuth();
+            }
+
+            if (typeof verificarPermisoTestimonio === 'function') {
+                verificarPermisoTestimonio();
+            }
+        }
+
+        function mostrarUsuarioLogueado(usuario) {
+            const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+            const usuarioCompleto = usuarios.find(u => u.id === usuario.id);
+
+            // Desktop
+            const userMenuDesktop = document.getElementById('user-menu-desktop');
+            const authButtonsDesktop = document.getElementById('auth-buttons-desktop');
+            if (userMenuDesktop && authButtonsDesktop) {
+                userMenuDesktop.style.display = 'block';
+                authButtonsDesktop.style.display = 'none';
+                document.getElementById('username-display').textContent = usuario.nombre.split(' ')[0];
+                document.getElementById('user-name-dropdown').textContent = usuario.nombre;
+                document.getElementById('user-email-dropdown').textContent = usuario.email;
+                document.getElementById('user-initials-desktop').textContent = obtenerInicialesUsuario(usuario.nombre);
+            }
+
+            // Mobile
+            const userMenuMobile = document.getElementById('user-menu-mobile');
+            const authButtonsMobile = document.getElementById('auth-buttons-mobile');
+            if (userMenuMobile && authButtonsMobile) {
+                userMenuMobile.style.display = 'block';
+                authButtonsMobile.style.display = 'none';
+                document.getElementById('username-display-mobile').textContent = usuario.nombre;
+            }
+        }
+
+        function mostrarBotonesAuth() {
+            // Desktop
+            const userMenuDesktop = document.getElementById('user-menu-desktop');
+            const authButtonsDesktop = document.getElementById('auth-buttons-desktop');
+            if (userMenuDesktop && authButtonsDesktop) {
+                userMenuDesktop.style.display = 'none';
+                authButtonsDesktop.style.display = 'flex';
+            }
+
+            // Mobile
+            const userMenuMobile = document.getElementById('user-menu-mobile');
+            const authButtonsMobile = document.getElementById('auth-buttons-mobile');
+            if (userMenuMobile && authButtonsMobile) {
+                userMenuMobile.style.display = 'none';
+                authButtonsMobile.style.display = 'flex';
+            }
+        }
+
+        function obtenerInicialesUsuario(nombre) {
+            const partes = nombre.trim().split(' ');
+            if (partes.length >= 2) {
+                return (partes[0][0] + partes[1][0]).toUpperCase();
+            }
+            return partes[0].substring(0, 2).toUpperCase();
+        }
+
+        function cerrarSesion() {
+            if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+                localStorage.removeItem('usuarioActual');
+                mostrarNotificacion('Sesión cerrada correctamente', 'info');
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1000);
+            }
+        }
+
+        // ========================================
+        // 13. INICIALIZACIÓN
+        // ========================================
+        
+        document.addEventListener('DOMContentLoaded', async function() {
+            // ⭐ PRIMERO cargar productos desde el servidor
+            await cargarProductosDesdeServidor();
+            
+            // DESPUÉS cargar carrito y verificar sesión
+            cargarCarrito();
+            verificarSesion();
+        });
+
+        // ========================================
+        // 14. EXPORTAR FUNCIONES GLOBALMENTE
+        // ========================================
+        
+        window.cargarProductosDesdeServidor = cargarProductosDesdeServidor;
+        window.obtenerStockProducto = obtenerStockProducto;
+        window.actualizarStock = actualizarStock;
+        window.verificarStockDisponible = verificarStockDisponible;
+    </script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

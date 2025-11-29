@@ -1,0 +1,504 @@
+{% extends "base.html" %}
+
+{% block title %}Contacto - ecopack{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-contacto {
+        position: relative;
+        height: 400px;
+        background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                    url('https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=1200&h=400&fit=crop');
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+    
+    .section-title {
+        color: #a4d65e;
+        font-weight: 700;
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+    }
+    
+    .underline-green {
+        width: 60px;
+        height: 4px;
+        background-color: #a4d65e;
+        margin-bottom: 1.5rem;
+    }
+    
+    .contact-info-box {
+        display: flex;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+    
+    .contact-icon {
+        width: 60px;
+        height: 60px;
+        background-color: #a4d65e;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1.5rem;
+        flex-shrink: 0;
+    }
+    
+    .contact-icon i {
+        color: white;
+        font-size: 1.5rem;
+    }
+    
+    .form-control, .form-select {
+        border: 1px solid #ddd;
+        padding: 0.75rem;
+        border-radius: 4px;
+        font-size: 0.95rem;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: #a4d65e;
+        box-shadow: 0 0 0 0.2rem rgba(164, 214, 94, 0.25);
+    }
+    
+    .btn-submit {
+        background-color: #a4d65e;
+        color: white;
+        border: none;
+        padding: 1rem 3rem;
+        font-weight: 600;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-submit:hover {
+        background-color: #8bc34a;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(164, 214, 94, 0.3);
+    }
+    
+    .whatsapp-float {
+        position: fixed;
+        width: 60px;
+        height: 60px;
+        bottom: 40px;
+        right: 40px;
+        background-color: #25d366;
+        color: #FFF;
+        border-radius: 50px;
+        text-align: center;
+        font-size: 30px;
+        box-shadow: 2px 2px 12px rgba(0,0,0,0.2);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+    
+    .whatsapp-float:hover {
+        background-color: #128C7E;
+        transform: scale(1.1);
+        color: white;
+    }
+    
+    .whatsapp-badge {
+        position: absolute;
+        top: -5px;
+        right: -5px;
+        background-color: #dc3545;
+        color: white;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- HERO SECTION -->
+<section class="hero-contacto">
+    <div class="container">
+        <h1 class="display-4 fw-bold text-white mb-0">CONTÁCTENOS</h1>
+    </div>
+</section>
+
+<!-- CONTACT SECTION -->
+<section class="py-5 bg-light">
+    <div class="container py-4">
+        <div class="row g-5">
+            <!-- INFORMACIÓN DE CONTACTO -->
+            <div class="col-lg-5">
+                <div class="section-title">DATOS DE CONTACTO</div>
+                <h2 class="h3 fw-bold mb-3" style="color: #333;">Contáctenos</h2>
+                <div class="underline-green"></div>
+                <p class="text-muted mb-4">
+                    Comunícate a los sgtes. números o por correo electrónico. Trataremos 
+                    de dar respuesta a la brevedad posible. Estamos aquí para asesorarte y 
+                    resolver todas tus dudas con gusto.
+                </p>
+
+                <!-- EMAIL -->
+                <div class="contact-info-box">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold mb-1" style="color: #a4d65e;">Correo</h5>
+                        <p class="text-muted mb-0">ventas@ecoside.pe</p>
+                    </div>
+                </div>
+
+                <!-- WHATSAPP -->
+                <div class="contact-info-box">
+                    <div class="contact-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold mb-1" style="color: #a4d65e;">Whatsapp</h5>
+                        <p class="text-muted mb-0">(+51) 991 142 077</p>
+                        <p class="text-muted mb-0">(+51) 958 952 618</p>
+                    </div>
+                </div>
+
+                <!-- DIRECCIÓN -->
+                <div class="contact-info-box">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold mb-1" style="color: #a4d65e;">Dirección</h5>
+                        <p class="text-muted mb-0">Chiclayo, Lambayeque, Perú</p>
+                    </div>
+                </div>
+
+                <!-- HORARIO -->
+                <div class="contact-info-box">
+                    <div class="contact-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div>
+                        <h5 class="fw-bold mb-1" style="color: #a4d65e;">Horario de atención</h5>
+                        <p class="text-muted mb-0">Lunes a Viernes: 9:00 AM - 6:00 PM</p>
+                        <p class="text-muted mb-0">Sábados: 9:00 AM - 1:00 PM</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FORMULARIO -->
+            <div class="col-lg-7">
+                <div class="bg-white p-4 p-md-5 shadow-sm" style="border-radius: 8px;">
+                    <div class="section-title">DATOS DE CONTACTO</div>
+                    <h2 class="h3 fw-bold mb-3" style="color: #333;">Envíanos tu consulta</h2>
+                    <div class="underline-green"></div>
+                    <p class="text-muted mb-4">Los campos marcados con * son obligatorios</p>
+
+                    <form id="contactForm">
+                        <div class="row g-3">
+                            <!-- EMPRESA -->
+                            <div class="col-md-7">
+                                <input type="text" class="form-control" id="empresa" placeholder="Empresa">
+                            </div>
+
+                            <!-- RUC -->
+                            <div class="col-md-5">
+                                <input type="text" class="form-control" id="ruc" placeholder="RUC">
+                            </div>
+
+                            <!-- CONTACTO -->
+                            <div class="col-md-7">
+                                <input type="text" class="form-control" id="contacto" placeholder="Contacto (*)" required>
+                            </div>
+
+                            <!-- TELÉFONO -->
+                            <div class="col-md-5">
+                                <input type="tel" class="form-control" id="telefono" placeholder="Teléfono (*)" required>
+                            </div>
+
+                            <!-- CORREO -->
+                            <div class="col-12">
+                                <input type="email" class="form-control" id="email" placeholder="Correo (*)" required>
+                            </div>
+
+                            <!-- MENSAJE -->
+                            <div class="col-12">
+                                <textarea class="form-control" id="mensaje" rows="6" placeholder="Mensaje (*)" required></textarea>
+                            </div>
+
+                            <!-- BOTÓN ENVIAR -->
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-submit w-100">
+                                    <i class="fas fa-paper-plane me-2"></i>Enviar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- REDES SOCIALES -->
+<section class="py-5 bg-white">
+    <div class="container text-center">
+        <h3 class="fw-bold mb-4">Síguenos en redes sociales</h3>
+        <div class="d-flex gap-3 justify-content-center">
+            <a href="#" class="btn btn-outline-success rounded-circle" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                <i class="fab fa-facebook fs-5"></i>
+            </a>
+            <a href="#" class="btn btn-outline-success rounded-circle" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                <i class="fab fa-instagram fs-5"></i>
+            </a>
+            <a href="#" class="btn btn-outline-success rounded-circle" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                <i class="fab fa-twitter fs-5"></i>
+            </a>
+            <a href="#" class="btn btn-outline-success rounded-circle" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                <i class="fab fa-linkedin fs-5"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- BOTÓN FLOTANTE DE WHATSAPP -->
+<a href="https://wa.me/51991142077?text=Hola,%20me%20interesa%20conocer%20más%20sobre%20sus%20productos" 
+   class="whatsapp-float" 
+   target="_blank" 
+   title="Contactar por WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+    <span class="whatsapp-badge">1</span>
+</a>
+
+<!-- MODAL DE CONFIRMACIÓN -->
+<div class="modal fade" id="confirmacionModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 15px; border: none;">
+            <div class="modal-body text-center p-5">
+                <!-- Icono de éxito animado -->
+                <div class="mb-4">
+                    <div class="success-checkmark">
+                        <div class="check-icon">
+                            <span class="icon-line line-tip"></span>
+                            <span class="icon-line line-long"></span>
+                            <div class="icon-circle"></div>
+                            <div class="icon-fix"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 class="fw-bold mb-3" style="color: #333;">¡Mensaje Enviado!</h3>
+                <p class="text-muted mb-4">
+                    Gracias por contactarnos. Hemos recibido tu mensaje y 
+                    te responderemos a la brevedad posible.
+                </p>
+                <button type="button" class="btn btn-submit px-5" data-bs-dismiss="modal">
+                    Aceptar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<style>
+/* Animación del checkmark */
+.success-checkmark {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+}
+
+.success-checkmark .check-icon {
+    width: 80px;
+    height: 80px;
+    position: relative;
+    border-radius: 50%;
+    box-sizing: content-box;
+    border: 4px solid #a4d65e;
+}
+
+.success-checkmark .check-icon::before {
+    top: 3px;
+    left: -2px;
+    width: 30px;
+    transform-origin: 100% 50%;
+    border-radius: 100px 0 0 100px;
+}
+
+.success-checkmark .check-icon::after {
+    top: 0;
+    left: 30px;
+    width: 60px;
+    transform-origin: 0 50%;
+    border-radius: 0 100px 100px 0;
+    animation: rotate-circle 4.25s ease-in;
+}
+
+.success-checkmark .check-icon::before,
+.success-checkmark .check-icon::after {
+    content: '';
+    height: 100px;
+    position: absolute;
+    background: #FFFFFF;
+    transform: rotate(-45deg);
+}
+
+.success-checkmark .icon-line {
+    height: 5px;
+    background-color: #a4d65e;
+    display: block;
+    border-radius: 2px;
+    position: absolute;
+    z-index: 10;
+}
+
+.success-checkmark .icon-line.line-tip {
+    top: 46px;
+    left: 14px;
+    width: 25px;
+    transform: rotate(45deg);
+    animation: icon-line-tip 0.75s;
+}
+
+.success-checkmark .icon-line.line-long {
+    top: 38px;
+    right: 8px;
+    width: 47px;
+    transform: rotate(-45deg);
+    animation: icon-line-long 0.75s;
+}
+
+.success-checkmark .icon-circle {
+    top: -4px;
+    left: -4px;
+    z-index: 10;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    position: absolute;
+    box-sizing: content-box;
+    border: 4px solid rgba(164, 214, 94, .5);
+}
+
+.success-checkmark .icon-fix {
+    top: 8px;
+    width: 5px;
+    left: 26px;
+    z-index: 1;
+    height: 85px;
+    position: absolute;
+    transform: rotate(-45deg);
+    background-color: #FFFFFF;
+}
+
+@keyframes rotate-circle {
+    0% {
+        transform: rotate(-45deg);
+    }
+    5% {
+        transform: rotate(-45deg);
+    }
+    12% {
+        transform: rotate(-405deg);
+    }
+    100% {
+        transform: rotate(-405deg);
+    }
+}
+
+@keyframes icon-line-tip {
+    0% {
+        width: 0;
+        left: 1px;
+        top: 19px;
+    }
+    54% {
+        width: 0;
+        left: 1px;
+        top: 19px;
+    }
+    70% {
+        width: 50px;
+        left: -8px;
+        top: 37px;
+    }
+    84% {
+        width: 17px;
+        left: 21px;
+        top: 48px;
+    }
+    100% {
+        width: 25px;
+        left: 14px;
+        top: 45px;
+    }
+}
+
+@keyframes icon-line-long {
+    0% {
+        width: 0;
+        right: 46px;
+        top: 54px;
+    }
+    65% {
+        width: 0;
+        right: 46px;
+        top: 54px;
+    }
+    84% {
+        width: 55px;
+        right: 0px;
+        top: 35px;
+    }
+    100% {
+        width: 47px;
+        right: 8px;
+        top: 38px;
+    }
+}
+</style>
+
+<script>
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Validar que los campos requeridos estén llenos
+    const contacto = document.getElementById('contacto').value;
+    const telefono = document.getElementById('telefono').value;
+    const email = document.getElementById('email').value;
+    const mensaje = document.getElementById('mensaje').value;
+    
+    if (!contacto || !telefono || !email || !mensaje) {
+        alert('Por favor, complete todos los campos obligatorios (*)');
+        return;
+    }
+    
+    // Validar formato de email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        alert('Por favor, ingrese un correo electrónico válido');
+        return;
+    }
+    
+    // Mostrar modal de confirmación
+    const modal = new bootstrap.Modal(document.getElementById('confirmacionModal'));
+    modal.show();
+    
+    // Limpiar formulario
+    this.reset();
+});
+</script>
+{% endblock %}

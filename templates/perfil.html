@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block title %}Mis Pedidos - ecopack{% endblock %}
+
+{% block content %}
+<section class="py-5" style="background-color: #f8f9fa; min-height: 100vh;">
+    <div class="container py-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-3 mb-4">
+                <div class="card border-0 shadow-sm" style="border-radius: 15px;">
+                    <div class="card-body p-4 text-center">
+                        <div class="mb-3">
+                            <div class="rounded-circle d-inline-flex align-items-center justify-content-center" 
+                                 style="width: 100px; height: 100px; background: linear-gradient(135deg, #a4d65e 0%, #8bc34a 100%); color: white; font-weight: bold; font-size: 2.5rem;" id="user-avatar">
+                            </div>
+                        </div>
+                        <h5 class="fw-bold mb-1" id="sidebar-name">-</h5>
+                        <p class="text-muted small mb-3" id="sidebar-email">-</p>
+                        <hr>
+                        <ul class="nav flex-column gap-2">
+                            <li class="nav-item">
+                                <a class="nav-link text-start px-3 py-2" href="/perfil" style="border-radius: 10px; color: #666;">
+                                    <i class="fas fa-user me-2"></i>Mi Perfil
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active text-start px-3 py-2" href="/pedidos" style="background-color: #f0f8e8; border-radius: 10px; color: #a4d65e; font-weight: 600;">
+                                    <i class="fas fa-shopping-bag me-2"></i>Mis Pedidos
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contenido Principal -->
+            <div class="col-lg-9">
+                <div class="card border-0 shadow-sm" style="border-radius: 15px;">
+                    <div class="card-header bg-white border-0 p-4" style="border-radius: 15px 15px 0 0;">
+                        <h4 class="fw-bold mb-0">
+                            <i class="fas fa-shopping-bag me-2" style="color: #a4d65e;"></i>
+                            Mis Pedidos
+                        </h4>
+                    </div>
+                    <div class="card-body p-4">
+                        <!-- Lista de pedidos -->
+                        <div id="pedidos-lista">
+                            <!-- Se cargará dinámicamente -->
+                        </div>
+                        
+                        <!-- Mensaje sin pedidos -->
+                        <div id="no-pedidos" class="text-center py-5" style="display: none;">
+                            <i class="fas fa-shopping-cart fs-1 text-muted mb-3"></i>
+                            <h5 class="text-muted mb-3">Aún no has realizado ningún pedido</h5>
+                            <a href="/productos" class="btn btn-lg px-5 text-white" style="background-color: #a4d65e; border-radius: 15px;">
+                                <i class="fas fa-store me-2"></i>Ir a Productos
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const usuarioActual = localStorage.getItem('usuarioActual');
+        
+        if (!usuarioActual) {
+            window.location.href = '/login';
+            return;
+        }
+        
+        const usuario = JSON.parse(usuarioActual);
+        const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+        const usuarioCompleto = usuarios.find(u => u.id === usuario.id);
+        
+        if (!usuarioCompleto) {
+            window.location.href = '/login';
+            return;
+        }
+        
+        // Obtener iniciales
+        function obtenerIniciales(nombre) {
+            const partes = nombre.trim().split(' ');
+            if (partes.length >= 2) {
+                return (partes[0][0] + partes[1][0]).toUpperCase();
+            }
+            return partes[0].substring(0, 2).toUpperCase();
+        }
+        
+        // Llenar sidebar
+        document.getElementById('user-avatar').textContent = obtenerIniciales(usuarioCompleto.nombre);
+        document.getElementById('sidebar-name').textContent = usuarioCompleto.nombre;
+        document.getElementById('sidebar-email').textContent = usuarioCompleto.email;
+        
+        // Cargar pedidos
+        cargarPedidos();
+    });
+    
+    function cargarPedidos() {
+        const usuarioActual = JSON.parse(localStorage.getItem('usuarioActual'));
+        const pedidos = JSON.parse(localStorage.getItem('pedidos') || '[]');
+        const pedidosUsuario = pedidos.filter(p => p.usuarioId === usuarioActual.id);
+        
+        const pedidosLista = document.getElementById('pedidos-lista');
+        const noPedidos = document.getElementById('no-pedidos');
+        
+        if (pedidosUsuario.length === 0) {
+            pedidosLista.style.display = 'none';
+            noPedidos.style.display = 'block';
+            return;
+        }
+        
+        noPedidos.style.display = 'none';
+        pedidosLista.style.display = 'block';
+        
+        // Ordenar por fecha (más recientes primero)
+        pedidosUsuario.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+        
+        pedidosLista.innerHTML = pedidosUsuario.map(pedido => `
+            <div class="card border-0 shadow-sm mb-3" style="border-radius: 15px;">
+                <div class="card-body p-4">
+                    <!-- Header del pedido -->
+                    <div class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom">
+                        <div>
+                            <h6 class="fw-bold mb-1">Pedido #${pedido.id}</h6>
+                            <small class="text-muted">
+                                <i class="fas fa-calendar me-1"></i>
+                                ${formatearFechaPedido(pedido.fecha)}
+                            </small>
+                        </div>
+                        <div>
+                            <span class="badge px-3 py-2" style="background-color: #f0f8e8; color: #a4d65e; border-radius: 20px;">
+                                <i class="fas fa-check-circle me-1"></i>${pedido.estado}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <!-- Productos del pedido -->
+                    <div class="row g-3 mb-3">
+                        ${pedido.productos.map(producto => `
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center">
+                                    <img src="${producto.imagen}" 
+                                         alt="${producto.nombre}" 
+                                         class="rounded me-3" 
+                                         style="width: 60px; height: 60px; object-fit: cover;">
+                                    <div>
+                                        <h6 class="mb-1">${producto.nombre}</h6>
+                                        <small class="text-muted">
+                                            Cantidad: ${producto.cantidad} × S/ ${producto.precio.toFixed(2)}
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <!-- Total -->
+                    <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+                        <div>
+                            <small class="text-muted">Total de productos:</small>
+                            <span class="fw-bold ms-2">${pedido.productos.length}</span>
+                        </div>
+                        <div>
+                            <small class="text-muted">Total pagado:</small>
+                            <span class="fw-bold fs-5 ms-2" style="color: #a4d65e;">S/ ${pedido.total.toFixed(2)}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    function formatearFechaPedido(fecha) {
+        const date = new Date(fecha);
+        return date.toLocaleDateString('es-ES', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }
+</script>
+{% endblock %}

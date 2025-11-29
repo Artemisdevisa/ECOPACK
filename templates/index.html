@@ -1,0 +1,870 @@
+{% extends "base.html" %}
+
+{% block title %}ecopack - Packaging Ecológico Sostenible{% endblock %}
+
+{% block content %}
+<!-- HERO SECTION MEJORADO -->
+<section style="background: linear-gradient(135deg, #a4d65e 0%, #8bc34a 100%); min-height: 100vh; position: relative; display: flex; align-items: center; overflow: hidden;" class="text-white">
+    <!-- Elementos decorativos de fondo -->
+    <div class="position-absolute w-100 h-100" style="top: 0; left: 0; z-index: 0;">
+        <div style="position: absolute; top: 10%; right: 10%; width: 300px; height: 300px; background: rgba(255,255,255,0.05); border-radius: 50%; filter: blur(60px);"></div>
+        <div style="position: absolute; bottom: 10%; left: 5%; width: 400px; height: 400px; background: rgba(255,255,255,0.08); border-radius: 50%; filter: blur(80px);"></div>
+    </div>
+    
+    <div class="container py-5 position-relative" style="z-index: 1;">
+        <div class="row align-items-center g-4 g-lg-5">
+            <!-- Contenido texto -->
+            <div class="col-lg-6 order-lg-1 order-2">
+                <div class="hero-content text-center text-lg-start">
+                    <!-- Badge superior -->
+                    <div class="mb-4">
+                        <span class="badge px-4 py-2" style="background-color: rgba(255,255,255,0.15); color: white; font-size: 0.9rem; font-weight: 600; border-radius: 30px; backdrop-filter: blur(10px);">
+                            <i class="fas fa-leaf me-2"></i>Packaging Sostenible
+                        </span>
+                    </div>
+                    
+                    <!-- Título principal -->
+                    <h1 class="display-3 fw-bold mb-4 animate-fade-in" style="line-height: 1.2; font-size: clamp(2rem, 5vw, 3.5rem);">
+                        Empaques para un<br>
+                        <span style="color: #f0f8e8;">futuro sostenible</span>
+                    </h1>
+                    
+                    <!-- Descripción -->
+                    <p class="lead mb-4 mb-lg-5" style="font-size: clamp(1rem, 2vw, 1.2rem); line-height: 1.8; opacity: 0.95;">
+                        Reduce el impacto ambiental con nuestra línea de packaging ecológico. 
+                        Diseñado para negocios que buscan compromiso con el planeta.
+                    </p>
+                    
+                    <!-- Botones de acción -->
+                    <div class="d-flex gap-3 flex-column flex-sm-row justify-content-center justify-content-lg-start mb-4 mb-lg-5">
+                        <a href="{{ url_for('productos') }}" class="btn btn-light btn-lg px-4 px-lg-5 shadow-lg" style="border-radius: 30px; color: #a4d65e; font-weight: 600;">
+                            <i class="fas fa-shopping-bag me-2"></i>Ver Productos
+                        </a>
+                        <a href="{{ url_for('servicios') }}" class="btn btn-outline-light btn-lg px-4 px-lg-5" style="border: 2px solid white; border-radius: 30px; font-weight: 600; backdrop-filter: blur(10px);">
+                            <i class="fas fa-info-circle me-2"></i>Más información
+                        </a>
+                    </div>
+                    
+                    <!-- Stats -->
+                    <div class="row g-3 g-lg-4 mt-3">
+                        <div class="col-4">
+                            <div class="text-center text-lg-start">
+                                <h3 class="fw-bold mb-1" style="font-size: clamp(1.5rem, 3vw, 2.5rem);">500+</h3>
+                                <small style="opacity: 0.85; font-size: clamp(0.75rem, 1.5vw, 1rem);">Clientes Satisfechos</small>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="text-center text-lg-start">
+                                <h3 class="fw-bold mb-1" style="font-size: clamp(1.5rem, 3vw, 2.5rem);">100%</h3>
+                                <small style="opacity: 0.85; font-size: clamp(0.75rem, 1.5vw, 1rem);">Eco-friendly</small>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="text-center text-lg-start">
+                                <h3 class="fw-bold mb-1" style="font-size: clamp(1.5rem, 3vw, 2.5rem);">24/7</h3>
+                                <small style="opacity: 0.85; font-size: clamp(0.75rem, 1.5vw, 1rem);">Soporte</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Imagen -->
+            <div class="col-lg-6 order-lg-2 order-1">
+                <div class="position-relative hero-image-container text-center">
+                    <!-- Imagen principal -->
+                    <img src="https://images.unsplash.com/photo-1591123120675-6f7f1aae0e5b?w=800&h=700&fit=crop" 
+                         alt="Productos Ecológicos" 
+                         class="img-fluid rounded-4 shadow-lg" 
+                         style="width: 100%; max-width: 600px; position: relative; z-index: 2;">
+                    
+                    <!-- Elemento decorativo detrás -->
+                    <div class="position-absolute d-none d-lg-block" style="top: -20px; right: -20px; width: 100%; max-width: 600px; height: 100%; background: rgba(255,255,255,0.1); border-radius: 30px; z-index: 1;"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll indicator -->
+        <div class="text-center mt-5 d-none d-lg-block">
+            <a href="#servicios" class="text-white text-decoration-none" style="opacity: 0.7;">
+                <i class="fas fa-chevron-down fa-2x animate-bounce"></i>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Wave separator -->
+    <div class="position-absolute bottom-0 w-100" style="overflow: hidden; line-height: 0;">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" style="height: 60px; width: 100%;">
+            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" style="fill: #fff;"></path>
+        </svg>
+    </div>
+</section>
+
+<!-- SERVICIOS DESTACADOS - 3 CARDS -->
+<section id="servicios" class="py-5 bg-white">
+    <div class="container py-4">
+        <!-- Header de sección -->
+        <div class="text-center mb-5">
+            <span class="badge px-4 py-2 mb-3" style="background-color: #f0f8e8; color: #a4d65e; font-size: 0.9rem; font-weight: 600; border-radius: 30px;">
+                NUESTROS SERVICIOS
+            </span>
+            <h2 class="display-5 fw-bold mb-3" style="color: #333; font-size: clamp(1.75rem, 4vw, 2.5rem);">Soluciones de Packaging Sostenible</h2>
+            <p class="lead text-muted" style="max-width: 700px; margin: 0 auto; font-size: clamp(1rem, 2vw, 1.125rem);">
+                Ofrecemos servicios integrales para hacer tu negocio más ecológico
+            </p>
+        </div>
+
+        <div class="row g-4">
+            <!-- Servicio 1 -->
+            <div class="col-lg-4 col-md-6">
+                <a href="{{ url_for('servicios') }}" class="text-decoration-none">
+                    <div class="service-card h-100 p-4 bg-white rounded-4 shadow-sm" style="transition: all 0.3s ease; border: 2px solid #f0f8e8;">
+                        <div class="service-icon mb-4" style="width: 70px; height: 70px; background: #f0f8e8; border-radius: 15px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-edit" style="font-size: 2rem; color: #a4d65e;"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3" style="color: #333; font-size: clamp(1.125rem, 2vw, 1.5rem);">Packaging personalizado</h4>
+                        <p class="text-muted mb-0" style="font-size: clamp(0.875rem, 1.5vw, 1rem);">
+                            Solución sostenible para reforzar su identidad de marca y destacar en el mercado.
+                        </p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Servicio 2 - DESTACADO -->
+            <div class="col-lg-4 col-md-6">
+                <a href="{{ url_for('servicios') }}" class="text-decoration-none">
+                    <div class="service-card h-100 p-4 rounded-4 shadow-sm text-white" style="background: linear-gradient(135deg, #a4d65e 0%, #8bc34a 100%); transition: all 0.3s ease; border: 2px solid #a4d65e;">
+                        <div class="service-icon mb-4" style="width: 70px; height: 70px; background: rgba(255,255,255,0.2); border-radius: 15px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-tools" style="font-size: 2rem; color: white;"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3" style="font-size: clamp(1.125rem, 2vw, 1.5rem);">Desarrollo de packaging</h4>
+                        <p class="mb-0" style="opacity: 0.95; font-size: clamp(0.875rem, 1.5vw, 1rem);">
+                            Diseños personalizados según las necesidades del cliente, adaptando tamaños y materiales.
+                        </p>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Servicio 3 -->
+            <div class="col-lg-4 col-md-6">
+                <a href="{{ url_for('servicios') }}" class="text-decoration-none">
+                    <div class="service-card h-100 p-4 bg-white rounded-4 shadow-sm" style="transition: all 0.3s ease; border: 2px solid #f0f8e8;">
+                        <div class="service-icon mb-4" style="width: 70px; height: 70px; background: #f0f8e8; border-radius: 15px; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-truck" style="font-size: 2rem; color: #a4d65e;"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3" style="color: #333; font-size: clamp(1.125rem, 2vw, 1.5rem);">Abastecimiento programado</h4>
+                        <p class="text-muted mb-0" style="font-size: clamp(0.875rem, 1.5vw, 1rem);">
+                            Entregas regulares según tu demanda y calendario operativo.
+                        </p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="text-center mt-5">
+            <a href="{{ url_for('servicios') }}" class="btn btn-lg px-4 px-lg-5 py-3 shadow text-white" style="background-color: #a4d65e; border-radius: 30px; font-weight: 600;">
+                Ver Todos los Servicios
+                <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- PRODUCTOS DESTACADOS -->
+<section class="py-5" style="background-color: #f8f9fa;">
+    <div class="container py-4">
+        <!-- Header de sección -->
+        <div class="text-center mb-5">
+            <span class="badge px-4 py-2 mb-3" style="background-color: #f0f8e8; color: #a4d65e; font-size: 0.9rem; font-weight: 600; border-radius: 30px;">
+                PRODUCTOS DESTACADOS
+            </span>
+            <h2 class="display-5 fw-bold mb-3" style="color: #333; font-size: clamp(1.75rem, 4vw, 2.5rem);">Nuestra Selección Premium</h2>
+            <p class="lead text-muted" style="max-width: 700px; margin: 0 auto; font-size: clamp(1rem, 2vw, 1.125rem);">
+                Los productos más populares de nuestra línea ecológica
+            </p>
+        </div>
+        
+        <div class="row g-4" id="productos-destacados-container">
+            {% for producto in productos %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden product-card" style="transition: all 0.3s ease;">
+                    <div class="position-relative overflow-hidden">
+                        <span class="badge position-absolute top-0 end-0 m-3 z-3 px-3 py-2" style="background: linear-gradient(135deg, #a4d65e 0%, #8bc34a 100%); border-radius: 20px;">
+                            <i class="fas fa-star me-1"></i>Destacado
+                        </span>
+                        <img src="{{ producto.imagen }}" class="card-img-top product-img" alt="{{ producto.nombre }}"
+                             style="height: 280px; object-fit: cover; transition: transform 0.5s ease;">
+                    </div>
+                    <div class="card-body d-flex flex-column p-4">
+                        <h5 class="card-title fw-bold mb-3" style="color: #333; font-size: clamp(1rem, 2vw, 1.25rem);">{{ producto.nombre }}</h5>
+                        <p class="card-text text-muted flex-grow-1 mb-4" style="font-size: clamp(0.875rem, 1.5vw, 1rem);">{{ producto.descripcion }}</p>
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                            <div>
+                                <small class="text-muted d-block mb-1">Precio</small>
+                                <h4 class="mb-0 fw-bold" style="color: #a4d65e; font-size: clamp(1.25rem, 2.5vw, 1.75rem);">S/ {{ "%.2f"|format(producto.precio) }}</h4>
+                            </div>
+                            <button class="btn text-white px-4 py-2" style="background-color: #a4d65e; border-radius: 25px; font-weight: 600;" onclick="agregarAlCarrito({{ producto.id }})">
+                                <i class="fas fa-cart-plus me-2"></i>Agregar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-5">
+            <a href="{{ url_for('productos') }}" class="btn btn-lg px-4 px-lg-5 py-3 shadow text-white" style="background-color: #a4d65e; border-radius: 30px; font-weight: 600;">
+                Ver Catálogo Completo
+                <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- POR QUÉ ELEGIRNOS -->
+<section class="py-5 bg-white">
+    <div class="container py-4">
+        <div class="text-center mb-5">
+            <span class="badge px-4 py-2 mb-3" style="background-color: #f0f8e8; color: #a4d65e; font-size: 0.9rem; font-weight: 600; border-radius: 30px;">
+                VENTAJAS
+            </span>
+            <h2 class="display-5 fw-bold mb-3" style="color: #333; font-size: clamp(1.75rem, 4vw, 2.5rem);">¿Por qué elegir ecopack?</h2>
+            <p class="lead text-muted" style="max-width: 700px; margin: 0 auto; font-size: clamp(1rem, 2vw, 1.125rem);">
+                Compromiso con la calidad y el medio ambiente
+            </p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="text-center p-3 p-lg-4">
+                    <div class="mb-3 mb-lg-4 mx-auto" style="width: 70px; height: 70px; background: linear-gradient(135deg, #a4d65e 0%, #8bc34a 100%); border-radius: 20px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-check-circle fs-2 text-white"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2 mb-lg-3" style="font-size: clamp(1rem, 2vw, 1.25rem);">Certificados</h5>
+                    <p class="text-muted small mb-0" style="font-size: clamp(0.8rem, 1.5vw, 0.875rem);">Productos con certificación internacional de sostenibilidad</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="text-center p-3 p-lg-4">
+                    <div class="mb-3 mb-lg-4 mx-auto" style="width: 70px; height: 70px; background: linear-gradient(135deg, #a4d65e 0%, #8bc34a 100%); border-radius: 20px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-shipping-fast fs-2 text-white"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2 mb-lg-3" style="font-size: clamp(1rem, 2vw, 1.25rem);">Envío Rápido</h5>
+                    <p class="text-muted small mb-0" style="font-size: clamp(0.8rem, 1.5vw, 0.875rem);">Entrega en 24-48 horas a nivel nacional</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="text-center p-3 p-lg-4">
+                    <div class="mb-3 mb-lg-4 mx-auto" style="width: 70px; height: 70px; background: linear-gradient(135deg, #a4d65e 0%, #8bc34a 100%); border-radius: 20px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-recycle fs-2 text-white"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2 mb-lg-3" style="font-size: clamp(1rem, 2vw, 1.25rem);">100% Ecológico</h5>
+                    <p class="text-muted small mb-0" style="font-size: clamp(0.8rem, 1.5vw, 0.875rem);">Materiales biodegradables y reciclables</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="text-center p-3 p-lg-4">
+                    <div class="mb-3 mb-lg-4 mx-auto" style="width: 70px; height: 70px; background: linear-gradient(135deg, #a4d65e 0%, #8bc34a 100%); border-radius: 20px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-headset fs-2 text-white"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2 mb-lg-3" style="font-size: clamp(1rem, 2vw, 1.25rem);">Soporte 24/7</h5>
+                    <p class="text-muted small mb-0" style="font-size: clamp(0.8rem, 1.5vw, 0.875rem);">Atención personalizada en todo momento</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TESTIMONIOS CON SISTEMA DE RESEÑAS -->
+<section class="py-5" style="background-color: #f8f9fa;">
+    <div class="container py-4">
+        <div class="text-center mb-5">
+            <span class="badge px-4 py-2 mb-3" style="background-color: #f0f8e8; color: #a4d65e; font-size: 0.9rem; font-weight: 600; border-radius: 30px;">
+                TESTIMONIOS
+            </span>
+            <h2 class="display-5 fw-bold mb-3" style="color: #333; font-size: clamp(1.75rem, 4vw, 2.5rem);">Lo que dicen nuestros clientes</h2>
+            
+            <!-- Botón agregar testimonio (solo visible si está logueado) -->
+            <div id="btn-agregar-testimonio" style="display: none;">
+                <button class="btn btn-lg px-4 px-lg-5 mt-3 text-white" 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#testimonioModal"
+                        style="background-color: #a4d65e; border-radius: 30px; font-weight: 600;">
+                    <i class="fas fa-plus-circle me-2"></i>Dejar mi opinión
+                </button>
+            </div>
+        </div>
+
+        <!-- Lista de testimonios -->
+        <div id="testimonios-lista" class="row g-4">
+            <!-- Los testimonios se cargarán dinámicamente aquí -->
+        </div>
+
+        <!-- Mensaje cuando no hay testimonios -->
+        <div id="no-testimonios" class="text-center py-5" style="display: none;">
+            <i class="fas fa-comments fs-1 text-muted mb-3"></i>
+            <h4 class="text-muted">Aún no hay testimonios</h4>
+            <p class="text-muted">Sé el primero en compartir tu experiencia</p>
+        </div>
+    </div>
+</section>
+
+<!-- MODAL AGREGAR TESTIMONIO -->
+<div class="modal fade" id="testimonioModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 15px;">
+            <div class="modal-header text-white" style="background-color: #a4d65e; border-radius: 15px 15px 0 0;">
+                <h5 class="modal-title fw-bold">
+                    <i class="fas fa-star me-2"></i>Comparte tu experiencia
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <form id="testimonioForm">
+                    <!-- Usuario (automático) -->
+                    <div class="mb-4 p-3 rounded" style="background-color: #f0f8e8;">
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center me-3" 
+                                 style="width: 50px; height: 50px; background: linear-gradient(135deg, #a4d65e 0%, #8bc34a 100%); color: white; font-weight: bold;">
+                                <span id="user-initials"></span>
+                            </div>
+                            <div>
+                                <h6 class="mb-0 fw-bold" id="user-name-display"></h6>
+                                <small class="text-muted" id="user-empresa-display"></small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Calificación -->
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">
+                            <i class="fas fa-star me-2" style="color: #a4d65e;"></i>
+                            Calificación
+                        </label>
+                        <div class="rating-stars" id="rating-stars">
+                            <i class="fas fa-star star" data-rating="1"></i>
+                            <i class="fas fa-star star" data-rating="2"></i>
+                            <i class="fas fa-star star" data-rating="3"></i>
+                            <i class="fas fa-star star" data-rating="4"></i>
+                            <i class="fas fa-star star" data-rating="5"></i>
+                        </div>
+                        <input type="hidden" id="rating-value" required>
+                        <small class="text-muted d-block mt-2">Haz clic en las estrellas para calificar</small>
+                    </div>
+
+                    <!-- Comentario -->
+                    <div class="mb-4">
+                        <label for="comentario" class="form-label fw-bold">
+                            <i class="fas fa-comment-dots me-2" style="color: #a4d65e;"></i>
+                            Tu opinión
+                        </label>
+                        <textarea class="form-control" 
+                                  id="comentario" 
+                                  rows="5" 
+                                  placeholder="Cuéntanos sobre tu experiencia con nuestros productos..."
+                                  required
+                                  maxlength="500"
+                                  style="border-radius: 10px;"></textarea>
+                        <div class="d-flex justify-content-between mt-2">
+                            <small class="text-muted">Máximo 500 caracteres</small>
+                            <small class="text-muted"><span id="char-count">0</span>/500</small>
+                        </div>
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-outline-secondary flex-grow-1" data-bs-dismiss="modal" style="border-radius: 10px;">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn text-white flex-grow-1" style="background-color: #a4d65e; border-radius: 10px;">
+                            <i class="fas fa-paper-plane me-2"></i>Publicar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA FINAL -->
+<section class="py-5 text-white position-relative" style="background: linear-gradient(135deg, #a4d65e 0%, #8bc34a 100%);">
+    <div class="container py-5 text-center">
+        <h2 class="display-4 fw-bold mb-4" style="font-size: clamp(2rem, 4vw, 3rem);">¿Listo para el cambio?</h2>
+        <p class="lead mb-4 mb-lg-5" style="max-width: 700px; margin: 0 auto; font-size: clamp(1rem, 2vw, 1.25rem);">
+            Únete a cientos de empresas que ya están marcando la diferencia con packaging sostenible
+        </p>
+        <div class="d-flex gap-3 flex-column flex-sm-row justify-content-center">
+            <a href="{{ url_for('contacto') }}" class="btn btn-light btn-lg px-4 px-lg-5 py-3 shadow" style="border-radius: 30px; color: #a4d65e; font-weight: 600;">
+                <i class="fas fa-phone me-2"></i>Contáctanos Ahora
+            </a>
+            <a href="{{ url_for('productos') }}" class="btn btn-outline-light btn-lg px-4 px-lg-5 py-3" style="border: 2px solid white; border-radius: 30px; font-weight: 600;">
+                <i class="fas fa-shopping-basket me-2"></i>Ver Catálogo
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Animaciones */
+    @keyframes fade-in {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(-20px);
+        }
+    }
+    
+    @keyframes bounce {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+    
+    .animate-fade-in {
+        animation: fade-in 1s ease-out;
+    }
+    
+    .animate-bounce {
+        animation: bounce 2s ease-in-out infinite;
+    }
+    
+    .hero-image-container {
+        animation: float 6s ease-in-out infinite;
+    }
+    
+    /* Hover effects */
+    .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(164, 214, 94, 0.3) !important;
+    }
+    
+    .product-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 40px rgba(164, 214, 94, 0.3) !important;
+    }
+    
+    .product-card:hover .product-img {
+        transform: scale(1.1);
+    }
+    
+    /* Estrellas de calificación */
+    .rating-stars {
+        font-size: 2rem;
+        cursor: pointer;
+    }
+    
+    .rating-stars .star {
+        color: #ddd;
+        transition: color 0.2s ease;
+    }
+    
+    .rating-stars .star.active {
+        color: #ffc107;
+    }
+    
+    .rating-stars .star:hover {
+        color: #ffc107;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 991.98px) {
+        .hero-image-container {
+            animation: none;
+        }
+    }
+    
+    @media (max-width: 575.98px) {
+        .service-card,
+        .product-card {
+            margin-bottom: 1rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // ========================================
+    // ACTUALIZACIÓN DE STOCK EN INDEX.HTML
+    // ========================================
+    
+    // Función para actualizar la visualización del stock en las tarjetas de productos destacados
+    function actualizarStockUIIndex() {
+        document.querySelectorAll('.product-card').forEach(card => {
+            const btnAgregar = card.querySelector('[onclick*="agregarAlCarrito"]');
+            if (!btnAgregar) return;
+            
+            const productoId = parseInt(btnAgregar.getAttribute('onclick').match(/\d+/)[0]);
+            const stockDisponible = obtenerStockProducto(productoId);
+            
+            // Buscar o crear badge de stock
+            let stockBadge = card.querySelector('.stock-info-badge');
+            if (!stockBadge) {
+                stockBadge = document.createElement('small');
+                stockBadge.className = 'stock-info-badge d-block mt-2';
+                
+                // Insertar antes del precio
+                const precioDiv = card.querySelector('.d-flex.justify-content-between');
+                if (precioDiv) {
+                    precioDiv.parentElement.insertBefore(stockBadge, precioDiv);
+                }
+            }
+            
+            // Actualizar contenido del badge
+            if (stockDisponible === 0) {
+                stockBadge.innerHTML = `
+                    <span class="badge" style="background-color: #fee; color: #c00; padding: 6px 12px; border-radius: 20px;">
+                        <i class="fas fa-times-circle me-1"></i>Agotado
+                    </span>
+                `;
+                btnAgregar.disabled = true;
+                btnAgregar.innerHTML = '<i class="fas fa-times me-1"></i>Sin Stock';
+                btnAgregar.style.backgroundColor = '#999';
+                btnAgregar.style.cursor = 'not-allowed';
+            } else if (stockDisponible < 10) {
+                stockBadge.innerHTML = `
+                    <span class="badge" style="background-color: #fff3cd; color: #856404; padding: 6px 12px; border-radius: 20px;">
+                        <i class="fas fa-exclamation-triangle me-1"></i>Últimas ${stockDisponible} unidades
+                    </span>
+                `;
+                btnAgregar.disabled = false;
+                btnAgregar.innerHTML = '<i class="fas fa-cart-plus me-2"></i>Agregar';
+                btnAgregar.style.backgroundColor = '#a4d65e';
+                btnAgregar.style.cursor = 'pointer';
+            } else {
+                stockBadge.innerHTML = `
+                    <span class="badge" style="background-color: #f0f8e8; color: #a4d65e; padding: 6px 12px; border-radius: 20px;">
+                        <i class="fas fa-check-circle me-1"></i>${stockDisponible} disponibles
+                    </span>
+                `;
+                btnAgregar.disabled = false;
+                btnAgregar.innerHTML = '<i class="fas fa-cart-plus me-2"></i>Agregar';
+                btnAgregar.style.backgroundColor = '#a4d65e';
+                btnAgregar.style.cursor = 'pointer';
+            }
+        });
+    }
+
+    // Actualizar UI cuando se carga la página
+    setTimeout(actualizarStockUIIndex, 500);
+    
+    // Sobrescribir agregarAlCarrito para actualizar UI después de agregar
+    const agregarAlCarritoOriginalIndex = window.agregarAlCarrito;
+    window.agregarAlCarrito = function(productoId) {
+        agregarAlCarritoOriginalIndex(productoId);
+        setTimeout(actualizarStockUIIndex, 100);
+    };
+    
+    // Exponer función globalmente
+    window.actualizarStockUIIndex = actualizarStockUIIndex;
+
+    // ========================================
+    // SISTEMA DE TESTIMONIOS
+    // ========================================
+    
+    let testimonios = [];
+    let ratingSeleccionado = 0;
+    
+    // Cargar testimonios desde localStorage
+    function cargarTestimonios() {
+        const testimoniosGuardados = localStorage.getItem('testimonios');
+        
+        if (testimoniosGuardados) {
+            testimonios = JSON.parse(testimoniosGuardados);
+        } else {
+            // Si no hay testimonios, agregar algunos de ejemplo
+            testimonios = [
+                {
+                    id: 1,
+                    usuarioId: 0,
+                    nombreUsuario: "María Rodríguez",
+                    email: "maria@ejemplo.com",
+                    empresa: "Restaurante Verde",
+                    rating: 5,
+                    comentario: "Excelente calidad y servicio. El cambio a packaging sostenible mejoró nuestra imagen de marca significativamente.",
+                    fecha: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString()
+                },
+                {
+                    id: 2,
+                    usuarioId: 0,
+                    nombreUsuario: "Juan López",
+                    email: "juan@ejemplo.com",
+                    empresa: "EcoMarket",
+                    rating: 5,
+                    comentario: "Productos de primera calidad. La atención al cliente es excepcional y los precios muy competitivos.",
+                    fecha: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString()
+                },
+                {
+                    id: 3,
+                    usuarioId: 0,
+                    nombreUsuario: "Ana García",
+                    email: "ana@ejemplo.com",
+                    empresa: "Café Orgánico",
+                    rating: 5,
+                    comentario: "Recomendados 100%. Calidad, precio y compromiso ambiental en un solo proveedor.",
+                    fecha: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()
+                }
+            ];
+            guardarTestimonios();
+        }
+        
+        renderizarTestimonios();
+    }
+    
+    function guardarTestimonios() {
+        localStorage.setItem('testimonios', JSON.stringify(testimonios));
+    }
+    
+    function renderizarTestimonios() {
+        const lista = document.getElementById('testimonios-lista');
+        const noTestimonios = document.getElementById('no-testimonios');
+        
+        if (!lista) return;
+        
+        if (testimonios.length === 0) {
+            lista.innerHTML = '';
+            if (noTestimonios) noTestimonios.style.display = 'block';
+            return;
+        }
+        
+        if (noTestimonios) noTestimonios.style.display = 'none';
+        
+        const testimoniosOrdenados = [...testimonios].sort((a, b) => 
+            new Date(b.fecha) - new Date(a.fecha)
+        );
+        
+        const testimoniosMostrar = testimoniosOrdenados.slice(0, 3);
+        
+        lista.innerHTML = testimoniosMostrar.map(testimonio => `
+            <div class="col-lg-4 col-md-6">
+                <div class="card border-0 shadow-sm rounded-4 h-100">
+                    <div class="card-body p-4">
+                        <div class="mb-3">
+                            ${generarEstrellas(testimonio.rating)}
+                        </div>
+                        <p class="text-muted mb-4" style="min-height: 80px;">
+                            "${testimonio.comentario}"
+                        </p>
+                        <div class="d-flex align-items-center">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center me-3" 
+                                 style="width: 50px; height: 50px; background: linear-gradient(135deg, #a4d65e 0%, #8bc34a 100%); color: white; font-weight: bold; font-size: 1.1rem;">
+                                ${obtenerIniciales(testimonio.nombreUsuario)}
+                            </div>
+                            <div>
+                                <h6 class="mb-0 fw-bold">${testimonio.nombreUsuario}</h6>
+                                <small class="text-muted">${testimonio.empresa || 'Cliente'}</small>
+                            </div>
+                        </div>
+                        <div class="mt-3 text-end">
+                            <small class="text-muted">
+                                <i class="fas fa-clock me-1"></i>
+                                ${formatearFecha(testimonio.fecha)}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+    
+    function generarEstrellas(rating) {
+        let estrellas = '';
+        for (let i = 1; i <= 5; i++) {
+            estrellas += `<i class="fas fa-star" style="color: ${i <= rating ? '#ffc107' : '#ddd'};"></i> `;
+        }
+        return estrellas;
+    }
+    
+    function obtenerIniciales(nombre) {
+        const partes = nombre.trim().split(' ');
+        if (partes.length >= 2) {
+            return (partes[0][0] + partes[1][0]).toUpperCase();
+        }
+        return partes[0].substring(0, 2).toUpperCase();
+    }
+    
+    function formatearFecha(fecha) {
+        const date = new Date(fecha);
+        const ahora = new Date();
+        const diff = ahora - date;
+        const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+        
+        if (dias === 0) return 'Hoy';
+        if (dias === 1) return 'Ayer';
+        if (dias < 7) return `Hace ${dias} días`;
+        if (dias < 30) return `Hace ${Math.floor(dias / 7)} semanas`;
+        
+        return date.toLocaleDateString('es-ES', { 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric' 
+        });
+    }
+    
+    function verificarPermisoTestimonio() {
+        const usuarioActual = localStorage.getItem('usuarioActual');
+        const btnAgregar = document.getElementById('btn-agregar-testimonio');
+        
+        if (!btnAgregar) return;
+        
+        if (usuarioActual) {
+            const usuario = JSON.parse(usuarioActual);
+            const yaComento = testimonios.some(t => t.usuarioId === usuario.id);
+            
+            if (!yaComento) {
+                btnAgregar.style.display = 'block';
+            } else {
+                btnAgregar.style.display = 'none';
+            }
+        } else {
+            btnAgregar.style.display = 'none';
+        }
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        const stars = document.querySelectorAll('.rating-stars .star');
+        
+        stars.forEach((star) => {
+            star.addEventListener('click', function() {
+                ratingSeleccionado = parseInt(this.getAttribute('data-rating'));
+                document.getElementById('rating-value').value = ratingSeleccionado;
+                
+                stars.forEach((s, i) => {
+                    if (i < ratingSeleccionado) {
+                        s.classList.add('active');
+                    } else {
+                        s.classList.remove('active');
+                    }
+                });
+            });
+            
+            star.addEventListener('mouseenter', function() {
+                const rating = parseInt(this.getAttribute('data-rating'));
+                stars.forEach((s, i) => {
+                    if (i < rating) {
+                        s.style.color = '#ffc107';
+                    } else {
+                        s.style.color = '#ddd';
+                    }
+                });
+            });
+        });
+        
+        const ratingContainer = document.querySelector('.rating-stars');
+        if (ratingContainer) {
+            ratingContainer.addEventListener('mouseleave', function() {
+                stars.forEach((s, i) => {
+                    if (i < ratingSeleccionado) {
+                        s.style.color = '#ffc107';
+                    } else {
+                        s.style.color = '#ddd';
+                    }
+                });
+            });
+        }
+        
+        const comentarioInput = document.getElementById('comentario');
+        if (comentarioInput) {
+            comentarioInput.addEventListener('input', function() {
+                const charCount = document.getElementById('char-count');
+                if (charCount) {
+                    charCount.textContent = this.value.length;
+                }
+            });
+        }
+        
+        const testimonioModal = document.getElementById('testimonioModal');
+        if (testimonioModal) {
+            testimonioModal.addEventListener('show.bs.modal', function() {
+                const usuarioActual = localStorage.getItem('usuarioActual');
+                if (usuarioActual) {
+                    const usuario = JSON.parse(usuarioActual);
+                    const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+                    const usuarioCompleto = usuarios.find(u => u.id === usuario.id);
+                    
+                    document.getElementById('user-initials').textContent = obtenerIniciales(usuario.nombre);
+                    document.getElementById('user-name-display').textContent = usuario.nombre;
+                    document.getElementById('user-empresa-display').textContent = usuarioCompleto?.empresa || 'Cliente';
+                }
+            });
+        }
+        
+        const testimonioForm = document.getElementById('testimonioForm');
+        if (testimonioForm) {
+            testimonioForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const usuarioActual = localStorage.getItem('usuarioActual');
+                if (!usuarioActual) {
+                    alert('Debes iniciar sesión para dejar un testimonio');
+                    return;
+                }
+                
+                if (ratingSeleccionado === 0) {
+                    alert('Por favor selecciona una calificación');
+                    return;
+                }
+                
+                const usuario = JSON.parse(usuarioActual);
+                const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+                const usuarioCompleto = usuarios.find(u => u.id === usuario.id);
+                
+                const comentario = document.getElementById('comentario').value.trim();
+                
+                const nuevoTestimonio = {
+                    id: Date.now(),
+                    usuarioId: usuario.id,
+                    nombreUsuario: usuario.nombre,
+                    email: usuario.email,
+                    empresa: usuarioCompleto?.empresa || '',
+                    rating: ratingSeleccionado,
+                    comentario: comentario,
+                    fecha: new Date().toISOString()
+                };
+                
+                testimonios.push(nuevoTestimonio);
+                guardarTestimonios();
+                
+                renderizarTestimonios();
+                verificarPermisoTestimonio();
+                
+                const modal = bootstrap.Modal.getInstance(testimonioModal);
+                modal.hide();
+                
+                this.reset();
+                ratingSeleccionado = 0;
+                document.querySelectorAll('.rating-stars .star').forEach(s => s.classList.remove('active'));
+                document.getElementById('char-count').textContent = '0';
+                
+                mostrarNotificacion('¡Gracias por tu opinión! Tu testimonio ha sido publicado', 'success');
+            });
+        }
+        
+        cargarTestimonios();
+        setTimeout(() => {
+            verificarPermisoTestimonio();
+        }, 100);
+    });
+</script>
+{% endblock %}
